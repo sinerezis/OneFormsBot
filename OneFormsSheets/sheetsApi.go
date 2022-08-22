@@ -1,42 +1,44 @@
-package main
+package oneformssheets
 
 import (
-	bot "oneforms/cmd/OneFormsBot"
 	"oneforms/token"
 
 	"context"
-	"fmt"
 	"io/ioutil"
-	"log"
 
 	"strconv"
-	"sync"
-	"time"
 
-	tgbotapi "github.com/Syfaro/telegram-bot-api"
 	"golang.org/x/oauth2/google"
 	"gopkg.in/Iwark/spreadsheet.v2"
 )
 
 // Инициализируем доступ к таблице
-func startSheet() (*spreadsheet.Sheet, error) {
+func StartSheet(pathToToken string, sheetUrl string) (*spreadsheet.Sheet, error) {
+
+	// Читаем данные, записаные в файле client sercet.
 	data, err := ioutil.ReadFile(token.Path_To_Client_Secret)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
+	// Генерируем конфиг из прочитанного
+	// json файла
 	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
 	if err != nil {
 		return nil, err
 	}
 
+	// Создаем клиента
 	client := conf.Client(context.TODO())
+	// Создаем сервис
 	service := spreadsheet.NewServiceWithClient(client)
+	// Присоединяемся к таблице по ее токену
 	spreadsheet, err := service.FetchSpreadsheet(token.SheetURL)
 	if err != nil {
 		return nil, err
 	}
 
+	// Читаем первый лист таблицы
 	sheet, err := spreadsheet.SheetByID(0)
 	if err != nil {
 		return nil, err
@@ -50,7 +52,7 @@ func startSheet() (*spreadsheet.Sheet, error) {
 // записанного. Если отличается - мы проходимся по каждой строке и записываем ее в массив.
 // увеличивая счетчик, записанный в таблице при каждой итерации.
 // Как только счетчики сравниваются - мы выходим из программы
-func ChekSheet(sheet *spreadsheet.Sheet) ([]string, error) {
+func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 	//Инициализируем счетчик - текущая длина таблицы
 	counter := len(sheet.Rows)
 
@@ -61,7 +63,10 @@ func ChekSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 	for {
 
 		// Сканируем число прочитанных элементов, которое записано в самой таблице
-		countOfRows, _ := strconv.Atoi(sheet.Rows[0][20].Value)
+		countOfRows, err := strconv.Atoi(sheet.Rows[0][20].Value)
+		if err != nil {
+			return orders, err
+		}
 
 		// Если все заказы из таблицы прочитаны - выходим
 		if countOfRows == counter {
@@ -84,8 +89,9 @@ func ChekSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 				sheet.Update(0, 20, strconv.Itoa(countOfRows))
 				err := sheet.Synchronize()
 				if err != nil {
-					return orders, nil
+					return orders, err
 				}
+
 			}
 		}
 		// Если из таблицы удаляют значение - переписываем значение счетчика
@@ -94,36 +100,8 @@ func ChekSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 			sheet.Update(0, 20, strconv.Itoa(counter))
 			err := sheet.Synchronize()
 			if err != nil {
-				return orders, nil
+				return orders, err
 			}
 		}
 	}
-}
-
-// Функция нужна для того,что бы неприрывно обрабатывать данные из таблицы
-func SendOrders(bot *tgbotapi.BotAPI) {
-	fmt.Println("work")
-	for {
-		sheet, _ := startSheet()
-		orders, _ := ChekSheet(sheet)
-		if len(orders) > 0 {
-			for _, order := range orders {
-				message := tgbotapi.NewMessage(token.ChatId, order)
-				bot.Send(message)
-			}
-		}
-		time.Sleep(10 * time.Second)
-
-	}
-}
-
-func main() {
-	var wg sync.WaitGroup
-	bot := bot.NewBot(token.Telegram_api_token)
-
-	wg.Add(1)
-	go SendOrders(bot)
-
-	wg.Wait()
-
 }

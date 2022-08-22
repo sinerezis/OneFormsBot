@@ -7,12 +7,12 @@ import (
 )
 
 // Инициализируем и запускаем бота
-func NewBot(token string) *tgbotapi.BotAPI {
+func NewBot(token string) (*tgbotapi.BotAPI, error) {
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
-		log.Panic(err)
+		return nil, err
 	}
 	log.Printf("Connect to %s", bot.Self.UserName)
-	return bot
+	return bot, nil
 
 }
