@@ -3,7 +3,8 @@ package main
 import (
 	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
-	"oneforms/token"
+
+	//"oneforms/token"
 
 	"fmt"
 	"os"
@@ -44,7 +45,7 @@ func main() {
 	bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
 
 	wg.Add(1)
-	go SendOrders(bot, token.SheetURL)
+	go SendOrders(bot, os.Getenv("SheetURL"))
 
 	wg.Wait()
 

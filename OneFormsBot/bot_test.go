@@ -1,7 +1,7 @@
 package oneformsbot
 
 import (
-	testtoken "oneforms/test_token"
+	//testtoken "oneforms/test_token"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
