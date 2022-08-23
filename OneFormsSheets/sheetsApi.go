@@ -1,10 +1,9 @@
 package oneformssheets
 
 import (
-	"oneforms/token"
+	"os"
 
 	"context"
-	"io/ioutil"
 
 	"strconv"
 
@@ -13,17 +12,11 @@ import (
 )
 
 // Инициализируем доступ к таблице
-func StartSheet(pathToToken string, sheetUrl string) (*spreadsheet.Sheet, error) {
-
-	// Читаем данные, записаные в файле client sercet.
-	data, err := ioutil.ReadFile(token.Path_To_Client_Secret)
-	if err != nil {
-		return nil, err
-	}
+func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 
 	// Генерируем конфиг из прочитанного
 	// json файла
-	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
+	conf, err := google.JWTConfigFromJSON([]byte(os.Getenv("client_secret")), spreadsheet.Scope)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +26,7 @@ func StartSheet(pathToToken string, sheetUrl string) (*spreadsheet.Sheet, error)
 	// Создаем сервис
 	service := spreadsheet.NewServiceWithClient(client)
 	// Присоединяемся к таблице по ее токену
-	spreadsheet, err := service.FetchSpreadsheet(token.SheetURL)
+	spreadsheet, err := service.FetchSpreadsheet(os.Getenv("SheetURL"))
 	if err != nil {
 		return nil, err
 	}

@@ -6,6 +6,8 @@ import (
 	"oneforms/token"
 
 	"fmt"
+	"os"
+	"strconv"
 
 	"sync"
 	"time"
@@ -19,15 +21,16 @@ import (
 // И если они есть - направляем изменения через бота
 // в чат
 
-func SendOrders(bot *tgbotapi.BotAPI, pathToToken string, sheetUrl string) {
+func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
 	fmt.Println("work")
 	for {
-		sheet, _ := sheets.StartSheet(pathToToken, sheetUrl)
+		sheet, _ := sheets.StartSheet(sheetUrl)
 		orders, _ := sheets.CheckSheet(sheet)
 		if len(orders) > 0 {
 			for _, order := range orders {
+				ChatId, _ := strconv.Atoi(os.Getenv("ChatId"))
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
-				message := tgbotapi.NewMessage(token.ChatId, formatMessage)
+				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
 				bot.Send(message)
 			}
 		}
@@ -38,10 +41,10 @@ func SendOrders(bot *tgbotapi.BotAPI, pathToToken string, sheetUrl string) {
 
 func main() {
 	var wg sync.WaitGroup
-	bot, _ := bot.NewBot(token.Telegram_api_token)
+	bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
 
 	wg.Add(1)
-	go SendOrders(bot, token.Path_To_Client_Secret, token.SheetURL)
+	go SendOrders(bot, token.SheetURL)
 
 	wg.Wait()
 
