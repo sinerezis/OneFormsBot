@@ -96,7 +96,8 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 				if sheet.Rows[countOfRows][3].Value != "" {
 
 					orders = append(orders, sheet.Rows[countOfRows][3].Value)
-				} else {
+				}
+				if sheet.Rows[countOfRows][3].Value == "" {
 					orders = append(orders, "Смотри таблицу.")
 				}
 
