@@ -97,6 +97,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 
 					orders = append(orders, sheet.Rows[countOfRows][3].Value)
 				}
+				orders = append(orders, "Смотри таблицу.")
 
 				// Обновляем кол-во прочитанных заказов, записаное
 				// в таблице
