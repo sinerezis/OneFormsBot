@@ -1,8 +1,9 @@
 package oneformssheets
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
+	token "oneforms/token"
 
 	"context"
 
@@ -24,7 +25,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	// json файла
 	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
 	if err != nil {
-		return nil, fmt.Errorf("1")
+		return nil, err
 	}
 
 	// Создаем клиента
@@ -32,7 +33,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	// Создаем сервис
 	service := spreadsheet.NewServiceWithClient(client)
 	// Присоединяемся к таблице по ее токену
-	spreadsheet, err := service.FetchSpreadsheet("1whO550LYoNZ-RrV_gpLrLWFyq8m0DmlO0vKJP3lUu84")
+	spreadsheet, err := service.FetchSpreadsheet(token.SheetURL)
 	if err != nil {
 		return nil, err
 	}
@@ -42,6 +43,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Print("Подлюкчение к таблице завершено")
 
 	return sheet, nil
 
@@ -67,8 +69,16 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 			return orders, err
 		}
 
+		// Если по какой то причине значение в таблице было обнулено -
+		// обновляем его, делая равным текущему количеству заказов.
+		if countOfRows == 0 {
+			log.Printf("Количество прочитанных заказов равно нулю. Обновляем значение до %d", counter)
+			countOfRows = counter
+		}
+
 		// Если все заказы из таблицы прочитаны - выходим
 		if countOfRows == counter {
+			log.Print("Нет новых заказов")
 			return orders, nil
 		}
 

@@ -1,23 +1,26 @@
 package oneformsbot
 
 import (
+	token "oneforms/token"
+
 	"log"
 	"net/http"
-	"os"
-	"strings"
 
 	tgbotapi "github.com/Syfaro/telegram-bot-api"
 )
 
 // Инициализируем и запускаем бота
 func NewBot() (*tgbotapi.BotAPI, error) {
-	key := os.Getenv("Telegram_api_token")
-	key = strings.Trim(key, "\n")
-	bot, err := tgbotapi.NewBotAPI(key)
+
+	bot, err := tgbotapi.NewBotAPI(token.Telegram_api_token)
 
 	if err != nil {
 		return nil, err
 	}
+
+	updates := bot.ListenForWebhook("/" + bot.Token)
+	log.Print(updates)
+
 	log.Printf("Connect to %s", bot.Self.UserName)
 	return bot, nil
 

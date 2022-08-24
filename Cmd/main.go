@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
+	"oneforms/token"
 
 	"fmt"
 	"os"
-	"strconv"
 
 	"sync"
 	"time"
@@ -26,7 +27,7 @@ func SendOrders(sheetUrl string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("work")
+	log.Print("Начинаем сканирование")
 	for {
 		sheet, _ := sheets.StartSheet(sheetUrl)
 		orders, _ := sheets.CheckSheet(sheet)
@@ -34,11 +35,11 @@ func SendOrders(sheetUrl string) error {
 		if len(orders) > 0 {
 			for _, order := range orders {
 
-				ChatId, _ := strconv.Atoi(os.Getenv("ChatId"))
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
-				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
+				message := tgbotapi.NewMessage(int64(token.ChatId), formatMessage)
 
 				bot.Send(message)
+				log.Printf("Заказ %s отправлен в чат", order)
 			}
 		}
 		time.Sleep(10 * time.Second)
