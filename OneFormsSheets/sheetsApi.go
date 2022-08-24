@@ -92,8 +92,12 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		// и увеличиваем счетчик прочитанных заказов на 1
 		if counter > countOfRows {
 			for ; countOfRows <= counter; countOfRows++ {
-				orders = append(orders, sheet.Rows[countOfRows][3].Value)
-				log.Print(sheet.Rows[countOfRows][3].Value, "заказ читаемый из таблицы")
+
+				if sheet.Rows[countOfRows][3].Value != "" {
+
+					orders = append(orders, sheet.Rows[countOfRows][3].Value)
+					log.Print(sheet.Rows[countOfRows][3].Value, "заказ читаемый из таблицы")
+				}
 
 				// Обновляем кол-во прочитанных заказов, записаное
 				// в таблице
@@ -112,8 +116,10 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 			err := sheet.Synchronize()
 			if err != nil {
 				return orders, err
+
 			}
 			log.Printf("Удалено заказов из таблицы: %d", countOfRows-counter)
+
 		}
 	}
 }
