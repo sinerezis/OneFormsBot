@@ -22,13 +22,14 @@ import (
 // в чат
 
 func SendOrders(sheetUrl string) error {
+	fmt.Print(os.Getenv("Telegram_api_token"))
 	bot, err := tgbotapi.NewBotAPI(os.Getenv("Telegram_api_token"))
 
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
-	fmt.Println(os.Getenv("Telegram_api_token"))
+	fmt.Print(os.Getenv("Telegram_api_token"))
 	if bot == nil {
 		fmt.Println("bot is nil")
 
