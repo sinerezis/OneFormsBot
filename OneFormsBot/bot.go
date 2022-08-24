@@ -18,10 +18,12 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 		return nil, err
 	}
 
-	updates := bot.ListenForWebhook("/" + bot.Token)
-	for update := range updates {
-		log.Print(update)
-	}
+	go func() {
+		updates := bot.ListenForWebhook("/" + bot.Token)
+		for update := range updates {
+			log.Print(update)
+		}
+	}()
 
 	log.Printf("Connect to %s", bot.Self.UserName)
 	return bot, nil
