@@ -87,7 +87,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		}
 
 		// Если в таблице есть новые заказы
-		// и если значение в графе "рамер" не пустое -
+		// и если значение в графе "размер" не пустое -
 		// добавляем заказ  в срез
 		// и увеличиваем счетчик прочитанных заказов на 1
 		if counter > countOfRows {
@@ -96,7 +96,6 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 				if sheet.Rows[countOfRows][3].Value != "" {
 
 					orders = append(orders, sheet.Rows[countOfRows][3].Value)
-					log.Print(sheet.Rows[countOfRows][3].Value, "заказ читаемый из таблицы")
 				}
 
 				// Обновляем кол-во прочитанных заказов, записаное
@@ -118,7 +117,6 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 				return orders, err
 
 			}
-			log.Printf("Удалено заказов из таблицы: %d", countOfRows-counter)
 
 		}
 	}
