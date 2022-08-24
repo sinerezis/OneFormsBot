@@ -3,9 +3,6 @@ package main
 import (
 	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
-	"strings"
-
-	//"oneforms/token"
 
 	"fmt"
 	"os"
@@ -23,13 +20,9 @@ import (
 // И если они есть - направляем изменения через бота
 // в чат
 
-func SendOrders(sheetUrl string, bot *tgbotapi.BotAPI) error {
-	key := os.Getenv("Telegram_api_token")
-	key = strings.Trim(key, "\n")
-	bot, err := tgbotapi.NewBotAPI(key)
-
+func SendOrders(sheetUrl string) error {
+	bot, err := bot.NewBot()
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	fmt.Println("work")
@@ -54,10 +47,9 @@ func SendOrders(sheetUrl string, bot *tgbotapi.BotAPI) error {
 
 func main() {
 	var wg sync.WaitGroup
-	bot, _ := bot.NewBot()
 
 	wg.Add(1)
-	go SendOrders(os.Getenv("SheetURL"), bot)
+	go SendOrders(os.Getenv("SheetURL"))
 
 	wg.Wait()
 
