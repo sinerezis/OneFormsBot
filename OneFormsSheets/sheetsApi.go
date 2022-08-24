@@ -73,7 +73,11 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		// обновляем его, делая равным текущему количеству заказов.
 		if countOfRows == 0 {
 			log.Printf("Количество прочитанных заказов равно нулю. Обновляем значение до %d", counter)
-			countOfRows = counter
+			if countOfRows > counter {
+				sheet.Update(0, 20, strconv.Itoa(counter))
+				err := sheet.Synchronize()
+				if err != nil {
+					return orders, err
 		}
 
 		// Если все заказы из таблицы прочитаны - выходим
@@ -88,10 +92,8 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		// и увеличиваем счетчик прочитанных заказов на 1
 		if counter > countOfRows {
 			for ; countOfRows <= counter; countOfRows++ {
-				if sheet.Rows[countOfRows][3].Value != "" {
 					orders = append(orders, sheet.Rows[countOfRows][3].Value)
 
-				}
 
 				// Обновляем кол-во прочитанных заказов, записаное
 				// в таблице
