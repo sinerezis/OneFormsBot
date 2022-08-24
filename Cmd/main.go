@@ -22,8 +22,15 @@ import (
 // И если они есть - направляем изменения через бота
 // в чат
 
-func SendOrders(sheetUrl string) {
-	bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
+func SendOrders(sheetUrl string) error {
+	bot, err := bot.NewBot(os.Getenv("Telegram_api_token"))
+	if err != nil {
+		return err
+	}
+	if bot == nil {
+		fmt.Println("bot is nil")
+
+	}
 	fmt.Println("work")
 	for {
 		sheet, _ := sheets.StartSheet(sheetUrl)
