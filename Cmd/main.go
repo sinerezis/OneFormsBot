@@ -22,7 +22,8 @@ import (
 // И если они есть - направляем изменения через бота
 // в чат
 
-func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
+func SendOrders(sheetUrl string) {
+	bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
 	fmt.Println("work")
 	for {
 		sheet, _ := sheets.StartSheet(sheetUrl)
@@ -47,10 +48,10 @@ func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
 
 func main() {
 	var wg sync.WaitGroup
-	bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
+	//bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
 
 	wg.Add(1)
-	go SendOrders(bot, os.Getenv("SheetURL"))
+	go SendOrders(os.Getenv("SheetURL"))
 
 	wg.Wait()
 
