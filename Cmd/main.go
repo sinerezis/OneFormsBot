@@ -47,6 +47,7 @@ func SendOrders(sheetUrl string) error {
 }
 
 func main() {
+	fmt.Println("1")
 	var wg sync.WaitGroup
 
 	wg.Add(2)
