@@ -69,17 +69,17 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 			return orders, err
 		}
 
-		// Если по какой то причине значение в таблице было обнулено -
-		// обновляем его, делая равным текущему количеству заказов.
-		if countOfRows == 0 {
-			log.Printf("Количество прочитанных заказов равно нулю. Обновляем значение до %d", counter)
-			sheet.Update(0, 20, strconv.Itoa(counter))
-			err := sheet.Synchronize()
-			if err != nil {
-				return orders, err
+		// // Если по какой то причине значение в таблице было обнулено -
+		// // обновляем его, делая равным текущему количеству заказов.
+		// if countOfRows == 0 {
+		// 	log.Printf("Количество прочитанных заказов равно нулю. Обновляем значение до %d", counter)
+		// 	sheet.Update(0, 20, strconv.Itoa(counter))
+		// 	err := sheet.Synchronize()
+		// 	if err != nil {
+		// 		return orders, err
 
-			}
-		}
+		// 	}
+		// }
 
 		// Если все заказы из таблицы прочитаны - выходим
 		if countOfRows == counter {

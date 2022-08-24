@@ -19,9 +19,7 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 	}
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
-	for update := range updates {
-		log.Print(update)
-	}
+	log.Print(updates)
 
 	log.Printf("Connect to %s", bot.Self.UserName)
 	return bot, nil
