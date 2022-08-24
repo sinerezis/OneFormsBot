@@ -24,5 +24,5 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 }
 
 func MainHandler(resp http.ResponseWriter, _ *http.Request) {
-	resp.Write([]byte("Привет, это бот One Froms!"))
+	resp.Write([]byte("Привет, это бот One Froms"))
 }
