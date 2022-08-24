@@ -93,7 +93,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		if counter > countOfRows {
 			for ; countOfRows <= counter; countOfRows++ {
 				orders = append(orders, sheet.Rows[countOfRows][3].Value)
-				log.Print(sheet.Rows[countOfRows][3].Value)
+				log.Print(sheet.Rows[countOfRows][3].Value, "заказ читаемый из таблицы")
 
 				// Обновляем кол-во прочитанных заказов, записаное
 				// в таблице
