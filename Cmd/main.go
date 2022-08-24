@@ -34,7 +34,10 @@ func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
 				fmt.Println(formatMessage, ChatId, "test")
 				fmt.Println(os.Getenv("SheetURL"), "testurl")
 				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
+				fmt.Println("message created")
+
 				bot.Send(message)
+				fmt.Println("message sended")
 			}
 		}
 		time.Sleep(10 * time.Second)
