@@ -27,7 +27,7 @@ func SendOrders(sheetUrl string) error {
 	if err != nil {
 		return err
 	}
-	log.Print("Начинаем сканирование!")
+	log.Print("Начинаем сканирование")
 	for {
 		sheet, _ := sheets.StartSheet(sheetUrl)
 		orders, _ := sheets.CheckSheet(sheet)
