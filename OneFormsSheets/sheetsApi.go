@@ -16,7 +16,7 @@ import (
 // Инициализируем доступ к таблице
 func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 
-	data, err := ioutil.ReadFile("tmp/build_02ecb0d/google-credentials.json")
+	data, err := ioutil.ReadFile("tmp/build_cd608d48/google-credentials.json")
 	if err != nil {
 		return nil, err
 	}
