@@ -32,6 +32,7 @@ func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
 				ChatId, _ := strconv.Atoi(os.Getenv("ChatId"))
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
 				fmt.Println(formatMessage, ChatId, "test")
+				fmt.Println(os.Getenv("SheetURL"), "testurl")
 				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
 				bot.Send(message)
 			}
