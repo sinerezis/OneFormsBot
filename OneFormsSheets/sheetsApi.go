@@ -3,7 +3,8 @@ package oneformssheets
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
+
+	//"os"
 
 	"context"
 
@@ -16,7 +17,7 @@ import (
 // Инициализируем доступ к таблице
 func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 
-	data, err := ioutil.ReadFile("google-credentials.json")
+	data, err := ioutil.ReadFile("bin/google-credentials.json")
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +34,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	// Создаем сервис
 	service := spreadsheet.NewServiceWithClient(client)
 	// Присоединяемся к таблице по ее токену
-	spreadsheet, err := service.FetchSpreadsheet(os.Getenv("SheetURL"))
+	spreadsheet, err := service.FetchSpreadsheet("1whO550LYoNZ-RrV_gpLrLWFyq8m0DmlO0vKJP3lUu84")
 	if err != nil {
 		return nil, err
 	}

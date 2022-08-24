@@ -6,3 +6,19 @@ google-credentials.json
 .DS_store
 .vscode/
 
+
+
+2022-08-24T08:53:18.782969+00:00 app[web.1]: 
+2022-08-24T08:53:18.782984+00:00 app[web.1]: goroutine 26 [running]:
+2022-08-24T08:53:18.783008+00:00 app[web.1]: oneforms/OneFormsSheets.CheckSheet(0x0)
+2022-08-24T08:53:18.783042+00:00 app[web.1]: 	/tmp/build_044c252a/OneFormsSheets/sheetsApi.go:57 +0x2e
+2022-08-24T08:53:18.783087+00:00 app[web.1]: main.SendOrders(0x61180a?, {0xc000018009, 0x2e})
+2022-08-24T08:53:18.783115+00:00 app[web.1]: 	/tmp/build_044c252a/Cmd/main.go:29 +0xb9
+2022-08-24T08:53:18.783132+00:00 app[web.1]: created by main.main
+2022-08-24T08:53:18.783161+00:00 app[web.1]: 	/tmp/build_044c252a/Cmd/main.go:48 +0xe5
+2022-08-24T08:53:18.926095+00:00 heroku[web.1]: Process exited with status 2
+2022-08-24T08:53:18.995494+00:00 heroku[web.1]: State changed from starting to crashed
+2022-08-24T08:53:05.000000+00:00 app[api]: Build started by user romankazacenko16568@gmail.com
+2022-08-24T08:53:14.048534+00:00 app[api]: Deploy 503bb57d by user romankazacenko16568@gmail.com
+2022-08-24T08:53:14.048534+00:00 app[api]: Release v21 created by user romankazacenko16568@gmail.com
+2022-08-24T08:53:32.000000+00:00 app[api]: Build succeeded
