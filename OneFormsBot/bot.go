@@ -2,6 +2,7 @@ package oneformsbot
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
@@ -20,4 +21,8 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 	log.Printf("Connect to %s", bot.Self.UserName)
 	return bot, nil
 
+}
+
+func MainHandler(resp http.ResponseWriter, _ *http.Request) {
+	resp.Write([]byte("Привет, это бот One Froms!"))
 }

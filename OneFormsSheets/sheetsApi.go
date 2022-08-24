@@ -3,7 +3,6 @@ package oneformssheets
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 
 	"context"
 
@@ -15,7 +14,6 @@ import (
 
 // Инициализируем доступ к таблице
 func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
-	fmt.Println(os.Getenv("Telegram_api_token"), "test")
 
 	data, err := ioutil.ReadFile("google-credentials.json")
 	if err != nil {

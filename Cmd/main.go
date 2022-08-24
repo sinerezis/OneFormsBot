@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
 
@@ -48,7 +49,10 @@ func SendOrders(sheetUrl string) error {
 func main() {
 	var wg sync.WaitGroup
 
-	wg.Add(1)
+	wg.Add(2)
+
+	http.HandleFunc("/", bot.MainHandler)
+	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	go SendOrders(os.Getenv("SheetURL"))
 
 	wg.Wait()
