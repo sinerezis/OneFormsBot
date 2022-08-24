@@ -2,6 +2,7 @@ OneForms .gitignore
 
 /token
 /test_token
+google-credentials.json
 .DS_store
 .vscode/
 

@@ -1,6 +1,8 @@
 package oneformssheets
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
 
 	"context"
@@ -14,11 +16,16 @@ import (
 // Инициализируем доступ к таблице
 func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 
-	// Генерируем конфиг из прочитанного
-	// json файла
-	conf, err := google.JWTConfigFromJSON([]byte(os.Getenv("client_secret")), spreadsheet.Scope)
+	data, err := ioutil.ReadFile("OneForms/google-credentials.json")
 	if err != nil {
 		return nil, err
+	}
+
+	// Генерируем конфиг из прочитанного
+	// json файла
+	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
+	if err != nil {
+		return nil, fmt.Errorf("1")
 	}
 
 	// Создаем клиента
