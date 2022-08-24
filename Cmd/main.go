@@ -1,6 +1,7 @@
 package main
 
 import (
+	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
 	"strings"
 
@@ -22,7 +23,7 @@ import (
 // И если они есть - направляем изменения через бота
 // в чат
 
-func SendOrders(sheetUrl string) error {
+func SendOrders(sheetUrl string, bot *tgbotapi.BotAPI) error {
 	key := os.Getenv("Telegram_api_token")
 	key = strings.Trim(key, "\n")
 	bot, err := tgbotapi.NewBotAPI(key)
@@ -31,26 +32,19 @@ func SendOrders(sheetUrl string) error {
 		fmt.Println(err)
 		return err
 	}
-	fmt.Print(os.Getenv("Telegram_api_token"))
-	if bot == nil {
-		fmt.Println("bot is nil")
-
-	}
 	fmt.Println("work")
 	for {
 		sheet, _ := sheets.StartSheet(sheetUrl)
 		orders, _ := sheets.CheckSheet(sheet)
+
 		if len(orders) > 0 {
 			for _, order := range orders {
+
 				ChatId, _ := strconv.Atoi(os.Getenv("ChatId"))
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
-				fmt.Println(formatMessage, ChatId, "test")
-				fmt.Println(os.Getenv("SheetURL"), "testurl")
 				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
-				fmt.Println("message created")
 
 				bot.Send(message)
-				fmt.Println("message sended")
 			}
 		}
 		time.Sleep(10 * time.Second)
@@ -60,10 +54,10 @@ func SendOrders(sheetUrl string) error {
 
 func main() {
 	var wg sync.WaitGroup
-	//bot, _ := bot.NewBot(os.Getenv("Telegram_api_token"))
+	bot, _ := bot.NewBot()
 
 	wg.Add(1)
-	go SendOrders(os.Getenv("SheetURL"))
+	go SendOrders(os.Getenv("SheetURL"), bot)
 
 	wg.Wait()
 
