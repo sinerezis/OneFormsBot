@@ -43,7 +43,6 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Print("Подлюкчение к таблице завершено")
 
 	return sheet, nil
 
@@ -73,7 +72,11 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		// обновляем его, делая равным текущему количеству заказов.
 		if countOfRows == 0 {
 			log.Printf("Количество прочитанных заказов равно нулю. Обновляем значение до %d", counter)
-			countOfRows = counter
+			sheet.Update(0, 20, strconv.Itoa(counter))
+			err := sheet.Synchronize()
+			if err != nil {
+				return orders, err
+			}
 		}
 
 		// Если все заказы из таблицы прочитаны - выходим
@@ -83,7 +86,6 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		}
 
 		// Если в таблице есть новые заказы
-		// и если значение в графе "рамер" не пустое -
 		// добавляем заказ  в срез
 		// и увеличиваем счетчик прочитанных заказов на 1
 		if counter > countOfRows {
