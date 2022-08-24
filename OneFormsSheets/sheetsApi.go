@@ -43,7 +43,6 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Print("Подлюкчение к таблице завершено")
 
 	return sheet, nil
 

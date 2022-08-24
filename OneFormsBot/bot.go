@@ -21,7 +21,7 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 	go func() {
 		updates := bot.ListenForWebhook("/" + bot.Token)
 		for update := range updates {
-			log.Print(update)
+			log.Print(update.Message.From, update.Message)
 		}
 	}()
 
