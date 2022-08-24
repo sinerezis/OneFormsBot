@@ -52,8 +52,9 @@ func main() {
 
 	wg.Add(2)
 
-	http.HandleFunc("/", bot.MainHandler)
-	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	// http.HandleFunc("/", bot.MainHandler)
+	// go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+
 	go SendOrders(os.Getenv("SheetURL"))
 
 	wg.Wait()
