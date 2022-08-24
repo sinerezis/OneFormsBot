@@ -31,6 +31,7 @@ func SendOrders(bot *tgbotapi.BotAPI, sheetUrl string) {
 			for _, order := range orders {
 				ChatId, _ := strconv.Atoi(os.Getenv("ChatId"))
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
+				fmt.Println(formatMessage, ChatId, "test")
 				message := tgbotapi.NewMessage(int64(ChatId), formatMessage)
 				bot.Send(message)
 			}
