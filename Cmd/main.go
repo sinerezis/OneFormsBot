@@ -1,7 +1,6 @@
 package main
 
 import (
-	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
 
 	//"oneforms/token"
@@ -23,7 +22,7 @@ import (
 // в чат
 
 func SendOrders(sheetUrl string) error {
-	bot, err := bot.NewBot(os.Getenv("Telegram_api_token"))
+	bot, err := tgbotapi.NewBotAPI(os.Getenv("Telegram_api_token"))
 
 	if err != nil {
 		fmt.Println(err)
