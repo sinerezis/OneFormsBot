@@ -24,6 +24,7 @@ import (
 
 func SendOrders(sheetUrl string) error {
 	bot, err := bot.NewBot(os.Getenv("Telegram_api_token"))
+	fmt.Println(os.Getenv("Telegram_api_token"))
 	if err != nil {
 		fmt.Println(err)
 		return err
