@@ -50,9 +50,9 @@ func SendOrders(sheetUrl string) error {
 func main() {
 	var wg sync.WaitGroup
 
-	wg.Add(2)
+	wg.Add(3)
 
-	http.HandleFunc("/", bot.MainHandler)
+	go http.HandleFunc("/", bot.MainHandler)
 	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	go SendOrders(token.SheetURL)
 
