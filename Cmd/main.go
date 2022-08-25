@@ -34,7 +34,6 @@ func SendOrders(sheetUrl string) error {
 
 		if len(orders) > 0 {
 			for _, order := range orders {
-				log.Print(order)
 
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
 				message := tgbotapi.NewMessage(int64(token.ChatId), formatMessage)
@@ -43,7 +42,7 @@ func SendOrders(sheetUrl string) error {
 				log.Printf("Заказ %s отправлен в чат", order)
 			}
 		}
-		time.Sleep(5 * time.Minute)
+		time.Sleep(10 * time.Second)
 
 	}
 }
