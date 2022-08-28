@@ -1,7 +1,7 @@
 package oneformsbot
 
 import (
-	token "oneforms/token"
+	config "oneforms/config"
 
 	"log"
 	"net/http"
@@ -12,7 +12,7 @@ import (
 // Инициализируем и запускаем бота
 func NewBot() (*tgbotapi.BotAPI, error) {
 
-	bot, err := tgbotapi.NewBotAPI(token.Telegram_api_token)
+	bot, err := tgbotapi.NewBotAPI(config.Telegram_api_token)
 
 	if err != nil {
 		return nil, err
@@ -31,5 +31,5 @@ func NewBot() (*tgbotapi.BotAPI, error) {
 }
 
 func MainHandler(resp http.ResponseWriter, _ *http.Request) {
-	resp.Write([]byte("Привет, это бот One Froms!"))
+	resp.Write([]byte("Привет, это бот One Forms!"))
 }

@@ -3,7 +3,7 @@ package oneformssheets
 import (
 	"io/ioutil"
 	"log"
-	token "oneforms/token"
+	config "oneforms/config"
 
 	"context"
 
@@ -33,7 +33,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 	// Создаем сервис
 	service := spreadsheet.NewServiceWithClient(client)
 	// Присоединяемся к таблице по ее токену
-	spreadsheet, err := service.FetchSpreadsheet(token.SheetURL)
+	spreadsheet, err := service.FetchSpreadsheet(config.SheetURL)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 	for {
 
 		// Сканируем число прочитанных элементов, которое записано в самой таблице
-		countOfRows, err := strconv.Atoi(sheet.Rows[0][20].Value)
+		countOfRows, err := strconv.Atoi(sheet.Rows[config.CounterRow][config.CounterColumn].Value)
 		if err != nil {
 			return orders, err
 		}
@@ -95,7 +95,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 
 				if sheet.Rows[countOfRows][3].Value != "" {
 
-					orders = append(orders, sheet.Rows[countOfRows][3].Value)
+					orders = append(orders, sheet.Rows[countOfRows][config.OrderColumn].Value)
 				}
 
 				// Обновляем кол-во прочитанных заказов, записаное
@@ -111,7 +111,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 		// Если из таблицы удаляют значение - переписываем значение счетчика
 		// прочитанных значений
 		if countOfRows > counter {
-			sheet.Update(0, 20, strconv.Itoa(counter))
+			sheet.Update(config.CounterRow, config.CounterColumn, strconv.Itoa(counter))
 			err := sheet.Synchronize()
 			if err != nil {
 				return orders, err

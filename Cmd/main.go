@@ -5,7 +5,7 @@ import (
 	"net/http"
 	bot "oneforms/OneFormsBot"
 	sheets "oneforms/OneFormsSheets"
-	"oneforms/token"
+	config "oneforms/config"
 
 	"fmt"
 	"os"
@@ -36,7 +36,7 @@ func SendOrders(sheetUrl string) error {
 			for _, order := range orders {
 
 				formatMessage := fmt.Sprintln("Новый заказ: ", order)
-				message := tgbotapi.NewMessage(int64(token.ChatId), formatMessage)
+				message := tgbotapi.NewMessage(int64(config.ChatId), formatMessage)
 
 				bot.Send(message)
 				log.Printf("Заказ %s отправлен в чат", order)
@@ -54,7 +54,7 @@ func main() {
 
 	http.HandleFunc("/", bot.MainHandler)
 	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-	go SendOrders(token.SheetURL)
+	go SendOrders(config.SheetURL)
 
 	wg.Wait()
 
