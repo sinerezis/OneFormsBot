@@ -61,7 +61,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 
 	//Бесконечный цикл
 	for {
-		log.Print(sheet.Rows[0][0].Value)
+		log.Print(sheet.Rows[config.CounterRow][config.CounterColumn].Value)
 
 		// Сканируем число прочитанных элементов, которое записано в самой таблице
 		countOfRows, err := strconv.Atoi(sheet.Rows[config.CounterRow][config.CounterColumn].Value)
