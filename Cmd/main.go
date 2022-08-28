@@ -44,7 +44,7 @@ func SendOrders(sheetUrl string) error {
 		}
 
 		// Период проверки обновлений в таблице
-		time.Sleep(10 * time.Minute)
+		time.Sleep(2 * time.Minute)
 
 	}
 }
