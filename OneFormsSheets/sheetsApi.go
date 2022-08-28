@@ -61,6 +61,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 
 	//Бесконечный цикл
 	for {
+		log.Print(sheet.Rows[0][0].Value)
 
 		// Сканируем число прочитанных элементов, которое записано в самой таблице
 		countOfRows, err := strconv.Atoi(sheet.Rows[config.CounterRow][config.CounterColumn].Value)
@@ -100,7 +101,7 @@ func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 
 				// Обновляем кол-во прочитанных заказов, записаное
 				// в таблице
-				sheet.Update(0, 20, strconv.Itoa(countOfRows))
+				sheet.Update(config.CounterRow, config.CounterColumn, strconv.Itoa(countOfRows))
 				err := sheet.Synchronize()
 				if err != nil {
 					return orders, err
