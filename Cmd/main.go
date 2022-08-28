@@ -42,7 +42,9 @@ func SendOrders(sheetUrl string) error {
 				log.Printf("Заказ %s отправлен в чат", order)
 			}
 		}
-		time.Sleep(10 * time.Second)
+
+		// Период проверки обновлений в таблице
+		time.Sleep(10 * time.Minute)
 
 	}
 }
