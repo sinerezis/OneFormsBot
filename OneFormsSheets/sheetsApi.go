@@ -55,6 +55,7 @@ func StartSheet(sheetUrl string) (*spreadsheet.Sheet, error) {
 func CheckSheet(sheet *spreadsheet.Sheet) ([]string, error) {
 	//Инициализируем счетчик - текущая длина таблицы
 	counter := len(sheet.Rows)
+	log.Print(counter)
 
 	// Иницилизируем срез для хранения новых заказов
 	var orders []string
